@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraAnesthesia Pro | المنصة السريرية للتخدير والعناية المركزة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0B1120;
+      --bg-card: #131C31;
+      --bg-card-hover: #1A2642;
+      --bg-input: #0F172A;
+      --primary: #0EA5E9;
+      --primary-dark: #0284C7;
+      --primary-light: #38BDF8;
+      --accent: #10B981;
+      --accent-glow: rgba(16, 185, 129, 0.15);
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --danger-glow: rgba(239, 68, 68, 0.15);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border: #1E293B;
+      --border-focus: #0284C7;
+      --font-ar: 'Cairo', system-ui, -apple-system, sans-serif;
+      --font-en: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-ar);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0.85rem 1.5rem;
+    }
+
+    .header-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #0EA5E9, #0284C7);
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+    }
+
+    .logo-badge svg {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+    }
+
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-text h1 span {
+      color: var(--primary-light);
+      font-family: var(--font-en);
+    }
+
+    .creator-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      font-family: var(--font-en);
+      letter-spacing: 0.02em;
+    }
+
+    /* Main Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      background: var(--bg-input);
+      padding: 0.35rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      gap: 0.3rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-ar);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.55rem 1.15rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+    }
+
+    /* Layout Wrapper */
+    main {
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 1.5rem auto;
+      padding: 0 1.25rem;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Component */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .card-title svg {
+      width: 22px;
+      height: 22px;
+      color: var(--primary-light);
+    }
+
+    /* Form & Input Elements */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    input, select, textarea {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: #ffffff;
+      font-family: var(--font-ar);
+      font-size: 1rem;
+      padding: 0.7rem 1rem;
+      outline: none;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: var(--font-en);
+    }
+
+    .badge-primary { background: rgba(14, 165, 233, 0.15); color: var(--primary-light); border: 1px solid rgba(14, 165, 233, 0.3); }
+    .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    /* Results Table & Clinical Metric Cards */
+    .metric-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .metric-card:hover {
+      border-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      font-family: var(--font-en);
+    }
+
+    .metric-dose {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      font-family: var(--font-en);
+      letter-spacing: -0.01em;
+      margin: 0.2rem 0;
+    }
+
+    .metric-range {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-en);
+    }
+
+    .metric-notes {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      margin-top: 0.4rem;
+      border-top: 1px dashed var(--border);
+      padding-top: 0.4rem;
+    }
+
+    /* Section 2: Encyclopedia & Guides */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      padding-right: 2.5rem;
+    }
+
+    .search-box svg {
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+    }
+
+    .guide-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .guide-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .guide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .guide-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .guide-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: var(--font-en);
+    }
+
+    .guide-section {
+      background: var(--bg-input);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      font-size: 0.88rem;
+    }
+
+    .guide-section strong {
+      display: block;
+      color: var(--primary-light);
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+    }
+
+    .guide-section.contra {
+      border-right: 3px solid var(--danger);
+    }
+    .guide-section.contra strong {
+      color: var(--danger);
+    }
+
+    .guide-section.indic {
+      border-right: 3px solid var(--accent);
+    }
+    .guide-section.indic strong {
+      color: var(--accent);
+    }
+
+    .guide-section.pearls {
+      border-right: 3px solid var(--warning);
+    }
+    .guide-section.pearls strong {
+      color: var(--warning);
+    }
+
+    /* Section 3: Decision Support System */
+    .alert-box {
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .alert-danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fcd34d;
+    }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+
+    .condition-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .condition-chip input {
+      display: none;
+    }
+
+    .condition-chip.selected {
+      background: rgba(14, 165, 233, 0.2);
+      border-color: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      border: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-ar);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+    }
+
+    /* Print & Export Friendly Styling */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header, .nav-tabs, .btn-action, .filter-bar, .search-box {
+        display: none !important;
+      }
+      .card, .metric-card, .guide-card {
+        background: #ffffff !important;
+        border: 1px solid #cccccc !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+      }
+      .metric-name, .metric-dose, .card-title, .guide-title {
+        color: #000000 !important;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: #070B14;
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-brand {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #ffffff;
+    }
+
+    .footer-credit {
+      font-size: 0.95rem;
+      color: var(--primary-light);
+      font-weight: 700;
+      font-family: var(--font-en);
+      background: rgba(14, 165, 233, 0.1);
+      padding: 0.4rem 1.25rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(14, 165, 233, 0.25);
+    }
+
+    .footer-disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-tabs {
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+      .tab-btn {
+        padding: 0.5rem 0.85rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header>
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="logo-badge">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>AuraAnesthesia <span>Pro</span></h1>
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.2rem;">
+            <span class="creator-tag">By: Komail Nabeel / B.M.T Of Anesthesia & ICU</span>
+            <span class="badge badge-success">Clinical Edition 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" role="tablist">
+        <button class="tab-btn active" onclick="switchTab('calc-tab', this)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+          حاسبة الجرعات والمعدات
+        </button>
+        <button class="tab-btn" onclick="switchTab('guide-tab', this)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          دليل الصالة والأجهزة والادوية
+        </button>
+        <button class="tab-btn" onclick="switchTab('protocol-tab', this)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          الخطة السريرية ودعم القرار (CDSS)
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: DOSE & EQUIPMENT CALCULATOR -->
+    <!-- ========================================== -->
+    <section id="calc-tab" class="tab-pane active">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          بيانات المريض الأساسية (Patient Parameters)
+        </div>
+
+        <div class="grid-4">
+          <div class="form-group">
+            <label>الفئة العمرية (Age Category)</label>
+            <select id="calc-age-cat" onchange="handleAgeCategoryChange()">
+              <option value="neonate">حديث ولادة (Neonate 0 - 28d)</option>
+              <option value="infant">رضيع (Infant 1 - 12m)</option>
+              <option value="child" selected>طفل (Child 1 - 12y)</option>
+              <option value="adolescent">مراهق (Adolescent 12 - 18y)</option>
+              <option value="adult">بالغ (Adult 18 - 65y)</option>
+              <option value="elderly">كبار السن (Elderly > 65y)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>العمر بالسنوات أو الأشهر</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="number" id="calc-age-val" value="6" min="0" max="100" step="0.5" oninput="calculateAll()">
+              <select id="calc-age-unit" style="width: 110px;" onchange="calculateAll()">
+                <option value="years">سنة</option>
+                <option value="months">شهر</option>
+                <option value="days">يوم</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>الوزن الحقيقي (Weight kg)</label>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="number" id="calc-weight" value="20" min="0.5" max="250" step="0.5" oninput="calculateAll()">
+              <span style="font-weight: 800; color: var(--primary-light);">kg</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>الجنس (Gender - لحساب ETT و IBW)</label>
+            <select id="calc-gender" onchange="calculateAll()">
+              <option value="male">ذكر (Male)</option>
+              <option value="female">أنثى (Female)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Airway & Equipment Section -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          تجهيزات مجرى التنفس والإنعاش (Airway & Resuscitation Equipment)
+        </div>
+        <div class="grid-4" id="airway-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Drug Groups -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v2H6zm11 3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-1 9h-3v3h-2v-3H8v-2h3v-3h2v3h3v2z"/></svg>
+          أدوية الحث التخديري (Induction Agents)
+        </div>
+        <div class="grid-4" id="induction-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm4.18 11H7.82c-.41 0-.74-.34-.69-.75.48-3.79 3.65-6.75 7.42-6.75s6.94 2.96 7.42 6.75c.05.41-.28.75-.69.75z"/></svg>
+          المرخيات العضلية وعكوساتها (Muscle Relaxants & Reversal)
+        </div>
+        <div class="grid-4" id="relaxant-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          المسكنات والمهدئات (Analgesics & Opioids)
+        </div>
+        <div class="grid-4" id="analgesic-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.01-4.09l-2.45-1.45C16.2 17.78 14.25 19 12 19z"/></svg>
+          أدوية الطوارئ والإنعاش ودعم الدوران (Emergency & Resuscitation)
+        </div>
+        <div class="grid-4" id="emergency-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.33 0-8 3.2-8 7.2 0 4.47 4.96 10.42 7.4 12.35.35.28.84.28 1.2 0C15.04 19.62 20 13.67 20 9.2c0-4-2.67-7.2-8-7.2z"/></svg>
+          السوائل الوريدية ونقل الدم (Fluid Therapy & Maintenance - 4-2-1 Rule)
+        </div>
+        <div class="grid-4" id="fluid-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: OR & ICU COMPREHENSIVE GUIDE -->
+    <!-- ========================================== -->
+    <section id="guide-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+          موسوعة التخدير والعناية المركزة | الأجهزة، المعدات، والأدوية
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <input type="text" id="guide-search" placeholder="ابحث عن دواء، جهاز، مؤشر، أو مانع استعمال..." oninput="filterGuideItems()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+
+          <button class="filter-btn active" onclick="setGuideCategory('all', this)">الكل</button>
+          <button class="filter-btn" onclick="setGuideCategory('machines', this)">أجهزة التخدير وملحقاتها</button>
+          <button class="filter-btn" onclick="setGuideCategory('airway', this)">أجهزة مجرى التنفس</button>
+          <button class="filter-btn" onclick="setGuideCategory('monitoring', this)">المراقبة والعلامات الحيوية</button>
+          <button class="filter-btn" onclick="setGuideCategory('drugs', this)">صيدلية التخدير والعناية</button>
+        </div>
+
+        <div class="grid-2" id="guide-cards-container">
+          <!-- Populated by JS from comprehensive clinical database -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: SMART CLINICAL DECISION SUPPORT -->
+    <!-- ========================================== -->
+    <section id="protocol-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+          نظام توليد الخطة التخديرية السريرية الذكي (CDSS)
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
+          أدخل وزن المريض، عمره، طوله، وحدد حالته المرضية أو اختار السيناريو الجراحي، وسيقوم النظام تلقائياً باستنباط أنسب الأدوية، حساب الجرعات، وتحديد الموانع والمحاذير السريرية الحرجة.
+        </p>
+
+        <div class="grid-4" style="margin-bottom: 1.25rem;">
+          <div class="form-group">
+            <label>العمر (Age)</label>
+            <input type="number" id="cdss-age" value="35" min="0" max="100">
+          </div>
+          <div class="form-group">
+            <label>الوزن (Weight kg)</label>
+            <input type="number" id="cdss-weight" value="75" min="1" max="250">
+          </div>
+          <div class="form-group">
+            <label>الطول (Height cm)</label>
+            <input type="number" id="cdss-height" value="175" min="40" max="230">
+          </div>
+          <div class="form-group">
+            <label>نوع الجراحة المقررة</label>
+            <select id="cdss-surgery">
+              <option value="laparoscopy">جراحة ناظورية للبطن (Laparoscopy)</option>
+              <option value="cesarean">عملية قيصرية إسعافية أو مجدولة (Cesarean Section)</option>
+              <option value="trauma">إصابة ورضوض حادة / بطن حاد (Trauma / Acute Abdomen)</option>
+              <option value="ortho">جراحة عظام وأطراف (Orthopedic)</option>
+              <option value="ent">جراحة أنف وأذن وحنجرة / لوزتين (ENT / Airway)</option>
+              <option value="neuro">جراحة جملة عصبية / دماغ (Neurosurgery)</option>
+              <option value="cardiac">جراحة قلب وصدر وأوعية (Cardiovascular)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Clinical Conditions & Comorbidities Selection -->
+        <label style="margin-bottom: 0.5rem; display: block;">الحالات المرضية والمحاذير السريرية (حدد كل ما ينطبق):</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem;" id="conditions-chip-container">
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="full_stomach"> معدة ممتلئة / خطورة ارتشاف (Full Stomach / High Aspiration)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="asthma"> ربو قصبي / تشنج قصبات (Bronchial Asthma / Hyperactive Airway)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="ihd_htn"> نقص تروية القلب / ارتفاع الضغط (IHD / Severe HTN)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="shock_sepsis"> صدمة إنتانية / هبوط ضغط حاد (Sepsis / Hemodynamic Instability)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="renal_failure"> قصور كلوي حاد أو مزمن / غسيل كلى (CKD / High K+)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="hepatic_impairment"> قصور كبدي وتشمع (Hepatic Impairment / Cirrhosis)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="raised_icp"> ارتفاع الضغط داخل القحف (Raised ICP / Head Injury)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="difficult_airway"> مجرى تنفس صعب متوقع (Anticipated Difficult Airway)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="dka"> حماض كيتوني سكري (Diabetic Ketoacidosis - DKA)
+          </label>
+          <label class="condition-chip" onclick="toggleChip(this)">
+            <input type="checkbox" value="mh_susceptible"> قابلية فرط الحرارة الخبيث (Malignant Hyperthermia Risk)
+          </label>
+        </div>
+
+        <button class="btn-action" onclick="generateClinicalPlan()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          توليد الخطة التخديرية والمحاذير السريرية فوراً
+        </button>
+      </div>
+
+      <!-- Protocol Results Output Area -->
+      <div id="protocol-output" style="display: none;">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">AuraAnesthesia Pro • منصة التخدير والعناية المركزة المتكاملة</div>
+      <div class="footer-credit">By: Komail Nabeel / B.M.T Of Anesthesia & ICU</div>
+      <div class="footer-disclaimer">
+        تم تصميم هذه المنصة السريرية كأداة مساعدة لدعم القرار الطبي وتسهيل الحسابات التخديرية داخل صالات العمليات ووحدات العناية المركزة. يجب دائماً تدقيق الجرعات وفقاً للتقييم السريري لكل مريض والبروتوكولات المعتمدة محلياً.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC & CLINICAL CALCULATIONS -->
+  <!-- ========================================== -->
+  <script>
+    // Tab Switching
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function toggleChip(label) {
+      const cb = label.querySelector('input');
+      cb.checked = !cb.checked;
+      if (cb.checked) {
+        label.classList.add('selected');
+      } else {
+        label.classList.remove('selected');
+      }
+    }
+
+    function handleAgeCategoryChange() {
+      const cat = document.getElementById('calc-age-cat').value;
+      const ageInput = document.getElementById('calc-age-val');
+      const unitSelect = document.getElementById('calc-age-unit');
+      const weightInput = document.getElementById('calc-weight');
+
+      if (cat === 'neonate') {
+        ageInput.value = 7;
+        unitSelect.value = 'days';
+        weightInput.value = 3.2;
+      } else if (cat === 'infant') {
+        ageInput.value = 6;
+        unitSelect.value = 'months';
+        weightInput.value = 7.5;
+      } else if (cat === 'child') {
+        ageInput.value = 5;
+        unitSelect.value = 'years';
+        weightInput.value = 18;
+      } else if (cat === 'adolescent') {
+        ageInput.value = 14;
+        unitSelect.value = 'years';
+        weightInput.value = 50;
+      } else if (cat === 'adult') {
+        ageInput.value = 35;
+        unitSelect.value = 'years';
+        weightInput.value = 70;
+      } else if (cat === 'elderly') {
+        ageInput.value = 72;
+        unitSelect.value = 'years';
+        weightInput.value = 65;
+      }
+      calculateAll();
+    }
+
+    // Comprehensive Calculations
+    function calculateAll() {
+      const cat = document.getElementById('calc-age-cat').value;
+      let ageVal = parseFloat(document.getElementById('calc-age-val').value) || 0;
+      const ageUnit = document.getElementById('calc-age-unit').value;
+      const weight = parseFloat(document.getElementById('calc-weight').value) || 0;
+      const gender = document.getElementById('calc-gender').value;
+
+      // Normalize age in years
+      let ageYears = ageVal;
+      if (ageUnit === 'months') ageYears = ageVal / 12;
+      if (ageUnit === 'days') ageYears = ageVal / 365;
+
+      // 1. Airway Calculations
+      let ettCuffed = 0;
+      let ettUncuffed = 0;
+      let ettDepth = 0;
+      let lmaSize = 1;
+      let bladeType = 'Mac 3';
+      let defibDose = '200 J Biphasic';
+
+      if (cat === 'neonate' || ageYears < 0.08) {
+        ettUncuffed = weight < 1 ? 2.5 : (weight < 2 ? 3.0 : 3.5);
+        ettCuffed = weight < 3 ? 3.0 : 3.0;
+        ettDepth = (weight + 6).toFixed(1);
+        lmaSize = '1 (<5 kg)';
+        bladeType = 'Miller 00 / 0 Straight';
+        defibDose = `${(weight * 2).toFixed(0)} - ${(weight * 4).toFixed(0)} J (2-4 J/kg)`;
+      } else if (cat === 'infant' || ageYears < 1) {
+        ettUncuffed = (3.5 + (ageYears * 0.5)).toFixed(1);
+        ettCuffed = (3.0 + (ageYears * 0.5)).toFixed(1);
+        ettDepth = (ettUncuffed * 3).toFixed(1);
+        lmaSize = weight < 10 ? '1.5 (5-10 kg)' : '2 (10-20 kg)';
+        bladeType = 'Miller 1 Straight';
+        defibDose = `${(weight * 2).toFixed(0)} - ${(weight * 4).toFixed(0)} J (2-4 J/kg)`;
+      } else if (ageYears <= 12) {
+        // Motoyama / Khine formula
+        ettCuffed = ((ageYears / 4) + 3.5).toFixed(1);
+        ettUncuffed = ((ageYears / 4) + 4.0).toFixed(1);
+        ettDepth = ((ageYears / 2) + 12).toFixed(1);
+        if (weight < 10) lmaSize = '1.5 (5-10 kg)';
+        else if (weight < 20) lmaSize = '2 (10-20 kg)';
+        else if (weight < 30) lmaSize = '2.5 (20-30 kg)';
+        else lmaSize = '3 (30-50 kg)';
+        bladeType = ageYears < 5 ? 'Miller 1-2 / Mac 2' : 'Mac 2-3 Curved';
+        defibDose = `${(weight * 2).toFixed(0)} - ${(weight * 4).toFixed(0)} J (2-4 J/kg)`;
+      } else {
+        // Adult
+        ettCuffed = gender === 'male' ? '7.5 - 8.5' : '7.0 - 7.5';
+        ettUncuffed = 'Not Recommended in Adults';
+        ettDepth = gender === 'male' ? '22 - 24 cm' : '20 - 22 cm';
+        if (weight < 50) lmaSize = '3 (30-50 kg)';
+        else if (weight < 70) lmaSize = '4 (50-70 kg)';
+        else lmaSize = '5 (>70 kg)';
+        bladeType = gender === 'male' ? 'Macintosh 3 - 4' : 'Macintosh 3';
+        defibDose = '150 - 200 J Biphasic (360 J Monophasic)';
+      }
+
+      document.getElementById('airway-results').innerHTML = `
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">ETT Cuffed ID</span><span class="badge badge-primary">حجم الأنبوب ذو الكف</span></div>
+          <div class="metric-dose">${ettCuffed} <span style="font-size:0.9rem">mm ID</span></div>
+          <div class="metric-notes">معادلة الأطفال: (Age/4) + 3.5</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">ETT Uncuffed ID</span><span class="badge badge-primary">بدون كف</span></div>
+          <div class="metric-dose">${ettUncuffed} <span style="font-size:0.9rem">mm ID</span></div>
+          <div class="metric-notes">معادلة: (Age/4) + 4.0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Insertion Depth</span><span class="badge badge-primary">عمق الإدخال عند الشفاه</span></div>
+          <div class="metric-dose">${ettDepth} <span style="font-size:0.9rem">cm</span></div>
+          <div class="metric-notes">معادلة: (Age/2) + 12 أو 3 × حجم ETT</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">LMA Size</span><span class="badge badge-success">القناع الحنجري</span></div>
+          <div class="metric-dose">${lmaSize}</div>
+          <div class="metric-notes">حسب وزن المريض الدقيق</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Laryngoscope Blade</span><span class="badge badge-primary">شفرة المنظار</span></div>
+          <div class="metric-dose" style="font-size:1.15rem;">${bladeType}</div>
+          <div class="metric-notes">Miller مستقيمة للأطفال و Mac مقوسة للبالغين</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Defibrillation / Shock</span><span class="badge badge-danger">الصدمة الكهربائية</span></div>
+          <div class="metric-dose" style="font-size:1.15rem;">${defibDose}</div>
+          <div class="metric-notes">الأطفال: 2 J/kg صدمة أولى ثم 4 J/kg</div>
+        </div>
+      `;
+
+      // 2. Induction Agents Calculations
+      let propofolDosePerKg = cat === 'neonate' || cat === 'infant' ? 3.0 : (cat === 'child' ? 2.5 : 2.0);
+      if (cat === 'elderly') propofolDosePerKg = 1.2;
+      let propofolTotal = (weight * propofolDosePerKg).toFixed(0);
+
+      let ketamineIV = (weight * 1.5).toFixed(0);
+      let ketamineIM = (weight * 4).toFixed(0);
+      let etomidateTotal = (weight * 0.3).toFixed(1);
+      let thiopentalTotal = (weight * 4.0).toFixed(0);
+      let midazolamTotal = (weight * 0.05).toFixed(1);
+
+      document.getElementById('induction-results').innerHTML = `
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Propofol (1%)</span><span class="badge badge-primary">${propofolDosePerKg} mg/kg</span></div>
+          <div class="metric-dose">${propofolTotal} mg <span style="font-size:0.85rem; color:var(--text-muted);">(${(propofolTotal/10).toFixed(1)} ml)</span></div>
+          <div class="metric-notes">ممتاز للـ LMA، يسبب هبوط ضغط وتثبيط تنفس. تجنبه في الصدمة الشديدة.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Ketamine IV</span><span class="badge badge-success">1 - 2 mg/kg</span></div>
+          <div class="metric-dose">${ketamineIV} mg <span style="font-size:0.85rem; color:var(--text-muted);">[IM: ${ketamineIM} mg]</span></div>
+          <div class="metric-notes">مثالي لمرضى الربو والصدمة الإنتانية. يرفع الضغط والنبض. يوسع القصبات.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Etomidate</span><span class="badge badge-primary">0.2 - 0.3 mg/kg</span></div>
+          <div class="metric-dose">${etomidateTotal} mg</div>
+          <div class="metric-notes">أكثر دواء يحافظ على استقرار القلب والدوران. يثبط قشر الكظر (Adrenal suppression).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Thiopental (STP)</span><span class="badge badge-primary">3 - 5 mg/kg</span></div>
+          <div class="metric-dose">${thiopentalTotal} mg</div>
+          <div class="metric-notes">يخفض ضغط الدماغ (ICP). ممنوع مطلقاً في البورفيريا والربو الشديد.</div>
+        </div>
+      `;
+
+      // 3. Muscle Relaxants Calculations
+      let suxDose = (weight * (cat === 'neonate' || cat === 'infant' ? 2.0 : 1.5)).toFixed(0);
+      let rocuroniumIntubation = (weight * 0.6).toFixed(1);
+      let rocuroniumRSI = (weight * 1.2).toFixed(1);
+      let atracuriumDose = (weight * 0.5).toFixed(1);
+      let cisatracuriumDose = (weight * 0.15).toFixed(1);
+      let sugammadexRoutine = (weight * 2).toFixed(0);
+      let sugammadexDeep = (weight * 4).toFixed(0);
+      let neostigmineDose = (weight * 0.05).toFixed(2);
+      let atropineWithNeo = (weight * 0.02).toFixed(2);
+
+      document.getElementById('relaxant-results').innerHTML = `
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Succinylcholine</span><span class="badge badge-danger">1.5 - 2 mg/kg</span></div>
+          <div class="metric-dose">${suxDose} mg</div>
+          <div class="metric-notes">بداية فائقة السرعة (45s). ممنوع في فرط بوتاسيوم الدم، الحروق، ومرضى شلل الأعصاب.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Rocuronium (Esmeron)</span><span class="badge badge-primary">0.6 - 1.2 mg/kg</span></div>
+          <div class="metric-dose">${rocuroniumIntubation} mg <span style="font-size:0.8rem; color:var(--text-muted);">(RSI: ${rocuroniumRSI} mg)</span></div>
+          <div class="metric-notes">جرعة 1.2 mg/kg تعادل سرعة السكسنيل كولين في الـ RSI. له ترياق نوعي (Sugammadex).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Atracurium / Cisatracurium</span><span class="badge badge-success">Hofmann</span></div>
+          <div class="metric-dose">${atracuriumDose} mg <span style="font-size:0.8rem; color:var(--text-muted);">(Cis: ${cisatracuriumDose} mg)</span></div>
+          <div class="metric-notes">الخيار الأول والآمن لمرضى الفشل الكلوي والكبدي (تحلل هوفمان مستقل).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Sugammadex (Bridion)</span><span class="badge badge-success">Reversal</span></div>
+          <div class="metric-dose">${sugammadexRoutine} mg <span style="font-size:0.8rem; color:var(--text-muted);">(Deep: ${sugammadexDeep} mg)</span></div>
+          <div class="metric-notes">عكوس فوري للروكورونيوم: 2 mg/kg روتيني، 4 mg/kg إحصار عميق، 16 mg/kg فوري طارئ.</div>
+        </div>
+      `;
+
+      // 4. Analgesics & Opioids
+      let fentanylDose = (weight * 1.5).toFixed(0);
+      let morphineDose = (weight * 0.1).toFixed(1);
+      let paracetamolDose = cat === 'adult' ? '1000 mg (1 g)' : `${Math.min(1000, weight * 15).toFixed(0)} mg`;
+      let ketorolacDose = cat === 'adult' ? '30 mg' : `${Math.min(30, weight * 0.5).toFixed(1)} mg`;
+
+      document.getElementById('analgesic-results').innerHTML = `
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Fentanyl</span><span class="badge badge-primary">1 - 2 mcg/kg</span></div>
+          <div class="metric-dose">${fentanylDose} mcg <span style="font-size:0.85rem; color:var(--text-muted);">(${(fentanylDose/50).toFixed(1)} ml)</span></div>
+          <div class="metric-notes">مسكن أفيوني قوي، تأثيره يبدأ خلال دقيقتين ويدوم 30-45 دقيقة. استقرار دوراني ممتاز.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Morphine IV</span><span class="badge badge-primary">0.05 - 0.1 mg/kg</span></div>
+          <div class="metric-dose">${morphineDose} mg</div>
+          <div class="metric-notes">تسكين ممتد للعمليات الطويلة. يحرر الهيستامين (حذر في مرضى الربو وهبوط الضغط).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Paracetamol IV</span><span class="badge badge-success">15 mg/kg</span></div>
+          <div class="metric-dose">${paracetamolDose}</div>
+          <div class="metric-notes">مسكن وخافض حرارة أساسي في التسكين متعدد الوسائط (Multimodal Analgesia).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Ketorolac (NSAID)</span><span class="badge badge-warning">0.5 mg/kg</span></div>
+          <div class="metric-dose">${ketorolacDose}</div>
+          <div class="metric-notes">ممنوع في الفشل الكلوي، القرحة الهضمية، ومخاطر النزف العالي.</div>
+        </div>
+      `;
+
+      // 5. Emergency & Resuscitation
+      let arrestAdrenaline = cat === 'adult' ? '1 mg (1:10,000)' : `${(weight * 10).toFixed(0)} mcg (0.1 ml/kg of 1:10,000)`;
+      let atropineDose = cat === 'adult' ? '0.5 - 1.0 mg' : `${Math.max(0.1, weight * 0.02).toFixed(2)} mg (Min 0.1 mg)`;
+      let ephedrineDose = cat === 'adult' ? '5 - 10 mg bolus' : `${(weight * 0.1).toFixed(1)} mg`;
+
+      document.getElementById('emergency-results').innerHTML = `
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Adrenaline (Cardiac Arrest)</span><span class="badge badge-danger">10 mcg/kg IV</span></div>
+          <div class="metric-dose" style="font-size:1.2rem;">${arrestAdrenaline}</div>
+          <div class="metric-notes">توقف القلب: تكرر كل 3-5 دقائق. التأق (Anaphylaxis): يعطى عضلياً IM بجرعة 0.01 mg/kg.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Atropine Sulfate</span><span class="badge badge-warning">0.02 mg/kg</span></div>
+          <div class="metric-dose">${atropineDose}</div>
+          <div class="metric-notes">علاج بطء القلب الشديد (Bradycardia). الحد الأدنى للأطفال 0.1 mg لتجنب بطء القلب التناقضي.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Ephedrine IV</span><span class="badge badge-primary">0.1 - 0.2 mg/kg</span></div>
+          <div class="metric-dose">${ephedrineDose}</div>
+          <div class="metric-notes">مقبض وعائي ومسرع للقلب، مثالي لهبوط الضغط المصاحب للتخدير النصفي (Spinal).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Amiodarone (VF/pVT)</span><span class="badge badge-danger">5 mg/kg IV</span></div>
+          <div class="metric-dose">${cat === 'adult' ? '300 mg bolus' : (weight * 5).toFixed(0) + ' mg'}</div>
+          <div class="metric-notes">يعطى بعد الصدمة الثالثة في الرجفان البطيني المقاوم، يليه 150 mg (الأطفال 5 mg/kg).</div>
+        </div>
+      `;
+
+      // 6. Fluid Calculations (Holliday-Segar)
+      let hourlyFluid = 0;
+      if (weight <= 10) {
+        hourlyFluid = weight * 4;
+      } else if (weight <= 20) {
+        hourlyFluid = 40 + (weight - 10) * 2;
+      } else {
+        hourlyFluid = 60 + (weight - 20) * 1;
+      }
+
+      let bloodVolume = (weight * (cat === 'neonate' ? 85 : (cat === 'infant' ? 80 : 70))).toFixed(0);
+
+      document.getElementById('fluid-results').innerHTML = `
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Maintenance Fluid Rate</span><span class="badge badge-primary">قاعدة 4-2-1</span></div>
+          <div class="metric-dose">${hourlyFluid.toFixed(0)} <span style="font-size:0.85rem;">ml/hr</span></div>
+          <div class="metric-notes">السوائل الأساسية بالساعة (Isotonic Balanced Solution: Plasmalyte / Ringer's).</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">NPO Deficit (6 hrs)</span><span class="badge badge-primary">عجز الصيام</span></div>
+          <div class="metric-dose">${(hourlyFluid * 6).toFixed(0)} <span style="font-size:0.85rem;">ml</span></div>
+          <div class="metric-notes">يعوض: 50% بالساعة الأولى، 25% بالثانية، و 25% بالثالثة.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">Estimated Blood Volume</span><span class="badge badge-danger">حجم الدم الكلي</span></div>
+          <div class="metric-dose">${bloodVolume} <span style="font-size:0.85rem;">ml</span></div>
+          <div class="metric-notes">البالغ: 70 ml/kg | الطفل: 75-80 ml/kg | الرضيع وحديث الولادة: 85-90 ml/kg.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header"><span class="metric-name">3rd Space Surgical Loss</span><span class="badge badge-warning">فقدان الجراحة</span></div>
+          <div class="metric-dose">${(weight * 2).toFixed(0)} - ${(weight * 6).toFixed(0)} <span style="font-size:0.85rem;">ml/hr</span></div>
+          <div class="metric-notes">عملية بسيطة 1-2 ml/kg/hr، متوسطة 3-4 ml/kg/hr، كبرى/بطن مفتوح 6-8 ml/kg/hr.</div>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // TAB 2: ENCYCLOPEDIA DATABASE & FILTERING
+    // ==========================================
+    const guideDatabase = [
+      {
+        id: 'anesthesia_machine',
+        category: 'machines',
+        title: 'عربة التخدير (Anesthesia Workstation)',
+        subtitle: 'المكونات الأساسية واختبارات الأمان اليومية',
+        features: 'تضم نظام تزويد الغازات، المبخرات، دارات التنفس، جهاز التنفس الاصطناعي، ومفرغة الغازات التخديرية (Scavenging System).',
+        indications: 'إعطاء التخدير الاستنشاقي والتهوية الآلية للمريض مع مراقبة ضغوط مجرى التنفس والغازات الملهمة والزافرة.',
+        contra: 'ممنوع البدء بأي حالة تخدير قبل إجراء الفحص الإلزامي (High & Low-Pressure Leak Test) وتفقد مصدر الأكسجين الاحتياطي وجهاز الإنعاش اليدوي (Ambu bag).',
+        pearls: 'في حال انقطاع الأكسجين المركزي ينطلق إنذار صفارة الأكسجين (Oxygen Failure Whistle) ويقطع أكسيد النيتروز تلقائياً (Fail-safe valve).'
+      },
+      {
+        id: 'soda_lime',
+        category: 'machines',
+        title: 'كلس الصودا وممتص ثاني أكسيد الكربون (Soda Lime Absorber)',
+        subtitle: 'التركيب الكيميائي ودلائل الاستهلاك والتسمم',
+        features: 'يتكون من 94% هيدروكسيد الكالسيوم، 5% هيدروكسيد الصوديوم، مع مشعر كيميائي (Ethyl Violet).',
+        indications: 'امتصاص CO2 في الدارات المغلقة ونصف المغلقة (Circle System) لإعادة تدوير الغازات وتوفير الغازات الطازجة.',
+        contra: 'يمنع الاستمرار باستخدامه عند تحول أكثر من نصف الحبيبات إلى اللون البنفسجي، أو جفافه الشديد الذي يولد أول أكسيد الكربون مع Desflurane والمركب A مع Sevoflurane.',
+        pearls: 'علامة استهلاك الكلس سريرياً على شاشة المراقبة: ارتفاع خط الأساس في مخطط Capnography (Baseline > 0 mmHg) ما يعني إعادة استنشاق CO2.'
+      },
+      {
+        id: 'video_laryngoscope',
+        category: 'airway',
+        title: 'المنظار الحنجري الفيديوي (Video Laryngoscope)',
+        subtitle: 'C-MAC / GlideScope / King Vision',
+        features: 'مزود بكاميرا عالية الدقة في طرف الشفرة وشاشة مدمجة تتيح رؤية غير مباشرة للحبال الصوتية دون الحاجة لمحاذاة المحاور البصرية.',
+        indications: 'الخيار الذهبي لمجرى التنفس الصعب المتوقع أو المفاجئ (Difficult Airway)، مرضى السمنة المفرطة، وتثبيت العمود الفقري الرقبي.',
+        contra: 'الحذر عند إدخال أنبوب الرغامي دون النظر المباشر في الفم لتجنب تمزق الحنك الرخو أو جدار البلعوم (دائماً أدخل الأنبوب تحت النظر المباشر للفم أولاً ثم للشاشة).',
+        pearls: 'استخدام المخرز الصلب الموجه (Rigid Stylet) المنحني بزاوية 60 درجة ضروري جداً مع شفرات الـ Hyperangulated مثل GlideScope.'
+      },
+      {
+        id: 'lma_supreme_igel',
+        category: 'airway',
+        title: 'الأقنعة فوق الحنجرية (Second-Generation Supraglottic: i-gel / LMA)',
+        subtitle: 'الجيل الثاني المزود بقناة تصريف معدي (Gastric Port)',
+        features: 'لا تحتاج لتنظير حنجري، الجيل الثاني يتميز بقناة لتفريغ المعدة وإحكام إغلاق أعلى (Seal pressure > 30 cmH2O).',
+        indications: 'العمليات القصيرة والمتوسطة غير المتطلبة لإرخاء عميق، وحالات الإنعاش، وحالات فشل التنبيب الرغامي (Cannot Intubate, Cannot Oxygenate - CICO).',
+        contra: 'ممنوع في المعدة الممتلئة، الارتجاع المعدي المريئي الشديد، فتق الحجاب الحاجز الكبير، وضعية الانكباب (Prone)، وارتفاع مقاومة مجرى الهواء الحاد.',
+        pearls: 'جهاز i-gel مصنوع من مادة هلامية متطابقة طبياً (Thermoplastic elastomer) تتشكل حسب حرارة جسم المريض دون الحاجة لنفخ كف هوائي.'
+      },
+      {
+        id: 'arterial_line',
+        category: 'monitoring',
+        title: 'القثطار الشرياني للمراقبة الغازية (Arterial Line - IBP)',
+        subtitle: 'المراقبة المستمرة لضغط الدم والغازات الشريانية (ABG)',
+        features: 'يوضع غالباً في الشريان الكعبري (Radial) أو الفخذي (Femoral) ويوصل بحساس ضغط (Transducer) يعطي قراءات نبضة بنبضة.',
+        indications: 'عمليات القلب والصدر الكبرى، الصدمة، عدم استقرار الدوران، الحالات المتطلبة لضبط صارم لضغط الدم، وسحب عينات دم شرياني متكررة.',
+        contra: 'غياب التروية الجانبية (اختبار ألن السلبي الحاد - Modified Allen Test)، وجود عدوى جلدية في موضع القثطرة، أو متلازمة رينود الشديدة.',
+        pearls: 'يجب ضبط الحساس على مستوى الأذين الأيمن (Phlebostatic Axis - الورب الرابع في خط منتصف الإبط) لمعايرة الصفر (Zeroing) بدقة.'
+      },
+      {
+        id: 'capnography',
+        category: 'monitoring',
+        title: 'مخطط غاز ثاني أكسيد الكربون (Capnography & EtCO2)',
+        subtitle: 'المعيار الذهبي لسلامة التخدير وموقع أنبوب الرغامي',
+        features: 'يرسم تركيز CO2 الزافر مقابل الوقت (Waveform)، القيمة الطبيعية لـ EtCO2 بين 35 إلى 45 mmHg.',
+        indications: 'إلزامي في كل حالة تخدير عام وتنبيل لتأكيد وجود الأنبوب داخل القصبة وليس المريء، ولمراقبة التهوية وكفاءة الإنعاش القلبي الرئوي.',
+        contra: 'لا توجد موانع لاستخدامه بل هو إلزامي وفق معايير الجمعية الأمريكية للتخدير (ASA).',
+        pearls: 'شكل الموجة يكشف فوراً: انعدام الموجة = تنبيل مريئي أو توقف قلب، مظهر زعانف القرش (Shark-fin) = تشنج قصبي حاد (Bronchospasm).'
+      },
+      {
+        id: 'propofol',
+        category: 'drugs',
+        title: 'بروبوفول (Propofol - Diprivan)',
+        subtitle: 'المنوم الوريدي الأكثر شيوعاً في العالم',
+        features: 'مستحلب شحمي أبيض، بداية عمل فائقة السرعة (30 ثانية)، استيقاظ سريع ونقي دون خمول، وله خصائص مضادة للغثيان والقيء (Antiemetic).',
+        indications: 'الحث التخديري العام، التخدير الوريدي الكلي (TIVA)، والتهدئة الواعية (Sedation) للمناظير والإجراءات القصيرة.',
+        contra: 'ممنوع في الصدمة الشديدة غير المعوضة وهبوط الضغط الحاد، حساسية شديدة لمكونات البيض وفول الصويا.',
+        pearls: 'يسبب هبوطاً ملحوظاً في الضغط الشرياني نتيجة توسع الأوعية وتثبيط العضلة القلبية، وتسكين ألم الحقن يعطى قبله Lidocaine 20-40 mg.'
+      },
+      {
+        id: 'ketamine',
+        category: 'drugs',
+        title: 'كيتامين (Ketamine - Ketalar)',
+        subtitle: 'مخدر تفارقي (Dissociative Anesthetic) ومسكن مركزي قوي',
+        features: 'يحصر مستقبلات NMDA، يحافظ على المنعكسات الحنجرية والتنفس التلقائي، ويرفع الضغط والنبض عبر تنبيه الودي غير المباشر، موسع قصبي ممتاز.',
+        indications: 'تخدير مرضى الصدمة الإنتانية، مرضى الربو وتشنج القصبات، التسكين في الحروق، والعمليات الإسعافية غير المستقرة دورانياً.',
+        contra: 'ممنوع في ارتفاع ضغط الدم الشديد غير المضبوط، مرضى نقص تروية القلب الحاد (IHD) والذبحة، وارتفاع الضغط داخل الجمجمة (ICP) وداخل العين.',
+        pearls: 'لتجنب هلوسات وكوابيس الاستيقاظ (Emergence delirium)، يفضل إعطاء جرعة صغيرة من البنزوديازيبين (Midazolam 1-2 mg) مسبقاً.'
+      },
+      {
+        id: 'suxamethonium',
+        category: 'drugs',
+        title: 'سكسنيل كولين (Succinylcholine / Scoline)',
+        subtitle: 'المرخي العضلي الوحيد المزيل للاستقطاب (Depolarizing)',
+        features: 'أسرع مرخي عضلي على الإطلاق (30-45 ثانية) وأقصرها مدة (5-10 دقائق)، يتحلل بواسطة إنزيم البلازما كولين استريز.',
+        indications: 'التنبيل الرغامي الإسعافي السريع (RSI) في حالات المعدة الممتلئة وخطر الارتشاف الرئوي، وتشنج الحنجرة الحاد (Laryngospasm).',
+        contra: 'ممنوع مطلقاً في: القابلية لفرط الحرارة الخبيث (Malignant Hyperthermia)، فرط بوتاسيوم الدم، الحروق بعد 24 ساعة، وإصابات شلل النخاع الشوكي.',
+        pearls: 'يرفع البوتاسيوم بمقدار 0.5 - 1.0 mEq/L حتى في الأشخاص الأصحاء، وقد يسبب بطء قلب ملحوظ خاصة في الجرعة الثانية عند الأطفال (يعالج بالأتروبين).'
+      },
+      {
+        id: 'rocuronium',
+        category: 'drugs',
+        title: 'روكورونيوم (Rocuronium - Esmeron)',
+        subtitle: 'المرخي العضلي غير المزيل للاستقطاب الأوسع استخداماً',
+        features: 'بداية عمل سريعة (60 ثانية بجرعة التنبيل 0.6 mg/kg، و 45 ثانية بجرعة 1.2 mg/kg)، مدة عمل متوسطة (30-45 دقيقة).',
+        indications: 'التنبيل الروتيني والإسعافي (RSI كبديل آمن للسكسنيل كولين)، وإرخاء العضلات أثناء الجراحة.',
+        contra: 'فرط الحساسية للدواء. الحذر في مرضى القصور الكبدي الشديد لأن إطراحه كبدي/صفراوي بالدرجة الأولى.',
+        pearls: 'الميزة الذهبية: يمكن عكس تأثيره بالكامل خلال 3 دقائق حتى لو كان الإحصار عميقاً بواسطة دواء Sugammadex.'
+      },
+      {
+        id: 'sugammadex',
+        category: 'drugs',
+        title: 'سوغاماديكس (Sugammadex - Bridion)',
+        subtitle: 'الثورة الدوائية في عكوس التخدير (Selective Relaxant Binding Agent)',
+        features: 'حلقة سيكلودكسترين مغناطيسية تبتلع جزيئات الروكورونيوم والفيشورونيوم في البلازما بدقة 1:1 دون أي تأثير على مستقبلات الأستيل كولين.',
+        indications: 'العكس الفوري للإحصار العضلي الناتج عن Rocuronium أو Vecuronium في أي وقت وبأي عمق.',
+        contra: 'القصور الكلوي النهائي الحاد (GFR < 30 ml/min) ما لم يكن المريض على غسيل كلى، والحساسية المعروفة للمركب.',
+        pearls: 'الجرعات: 2 mg/kg للإحصار المتوسط (ظهور نبضتين TOF)، 4 mg/kg للإحصار العميق (1-2 PTC)، و 16 mg/kg للعكس الطارئ الفوري عند فشل التنبيب.'
+      }
+    ];
+
+    function renderGuideCards(items) {
+      const container = document.getElementById('guide-cards-container');
+      if (items.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 2rem; color:var(--text-muted);">لم يتم العثور على نتائج مطابقة للبحث.</div>';
+        return;
+      }
+      container.innerHTML = items.map(item => `
+        <div class="guide-card">
+          <div class="guide-header">
+            <div>
+              <div class="guide-title">${item.title}</div>
+              <div class="guide-subtitle">${item.subtitle}</div>
+            </div>
+            <span class="badge ${item.category === 'drugs' ? 'badge-primary' : (item.category === 'machines' ? 'badge-warning' : 'badge-success')}">
+              ${item.category === 'drugs' ? 'دواء' : (item.category === 'machines' ? 'جهاز/معدة' : (item.category === 'airway' ? 'مجرى تنفس' : 'مراقبة'))}
+            </span>
+          </div>
+          
+          <div class="guide-section">
+            <strong>المواصفات والآلية:</strong>
+            ${item.features}
+          </div>
+
+          <div class="guide-section indic">
+            <strong>شوكت ننطي / دواعي الاستخدام (Indications):</strong>
+            ${item.indications}
+          </div>
+
+          <div class="guide-section contra">
+            <strong>شوكت مننطي وممنوع / موانع الاستعمال (Contraindications):</strong>
+            ${item.contra}
+          </div>
+
+          <div class="guide-section pearls">
+            <strong>لؤلؤة سريرية وخبرة عملية (Clinical Pearl):</strong>
+            ${item.pearls}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let currentGuideCat = 'all';
+    function setGuideCategory(cat, btn) {
+      currentGuideCat = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterGuideItems();
+    }
+
+    function filterGuideItems() {
+      const term = document.getElementById('guide-search').value.toLowerCase().trim();
+      const filtered = guideDatabase.filter(item => {
+        const matchesCat = currentGuideCat === 'all' || item.category === currentGuideCat;
+        const matchesTerm = !term || 
+          item.title.toLowerCase().includes(term) || 
+          item.subtitle.toLowerCase().includes(term) || 
+          item.features.toLowerCase().includes(term) || 
+          item.indications.toLowerCase().includes(term) || 
+          item.contra.toLowerCase().includes(term) || 
+          item.pearls.toLowerCase().includes(term);
+        return matchesCat && matchesTerm;
+      });
+      renderGuideCards(filtered);
+    }
+
+    // ==========================================
+    // TAB 3: SMART CLINICAL DECISION SUPPORT
+    // ==========================================
+    function generateClinicalPlan() {
+      const age = parseFloat(document.getElementById('cdss-age').value) || 30;
+      const weight = parseFloat(document.getElementById('cdss-weight').value) || 70;
+      const height = parseFloat(document.getElementById('cdss-height').value) || 170;
+      const surgery = document.getElementById('cdss-surgery').value;
+
+      // Collect selected conditions
+      const selectedConditions = [];
+      document.querySelectorAll('#conditions-chip-container input:checked').forEach(cb => {
+        selectedConditions.push(cb.value);
+      });
+
+      // Calculate BMI & Ideal Body Weight (Devine)
+      const heightM = height / 100;
+      const bmi = (weight / (heightM * heightM)).toFixed(1);
+      const ibw = (50 + 0.91 * (height - 152.4)).toFixed(1);
+
+      // Decision rules
+      let technique = 'التخدير العام المتوازن مع التنبيل الرغامي (Balanced General Anesthesia with ETT)';
+      let inductionPlan = [];
+      let airwayStrategy = 'تنظير حنجري مباشر قياسي (Macintosh Blade 3) مع أنبوب رغامي قياس مناسب.';
+      let maintenancePlan = 'غاز استنشاقي (Sevoflurane / Isoflurane) في مزيج أكسجين وهواء.';
+      let relaxantPlan = 'Rocuronium بجرعة صيانة متقطعة تحت مراقبة قطار الأربعة (TOF).';
+      let analgesiaPlan = 'تسكين متعدد الوسائط (Multimodal): Fentanyl أثناء الجراحة + Paracetamol IV + إحصار موضعي/ناحي.';
+      let redAlerts = [];
+      let precautions = [];
+
+      // Check Comorbidities
+      const isFullStomach = selectedConditions.includes('full_stomach') || surgery === 'trauma' || surgery === 'cesarean';
+      const isAsthma = selectedConditions.includes('asthma');
+      const isIHD = selectedConditions.includes('ihd_htn');
+      const isShock = selectedConditions.includes('shock_sepsis');
+      const isRenal = selectedConditions.includes('renal_failure');
+      const isHepatic = selectedConditions.includes('hepatic_impairment');
+      const isRaisedICP = selectedConditions.includes('raised_icp');
+      const isDifficultAirway = selectedConditions.includes('difficult_airway');
+      const isDKA = selectedConditions.includes('dka');
+      const isMH = selectedConditions.includes('mh_susceptible');
+
+      // Induction drug selection
+      if (isShock) {
+        inductionPlan.push({ name: 'Ketamine', dose: `${(weight * 1.5).toFixed(0)} mg IV`, why: 'يحافظ على النتاج القلبي والضغط عبر تنبيه الودي' });
+        inductionPlan.push({ name: 'Etomidate (خيار بديل)', dose: `${(weight * 0.2).toFixed(1)} mg IV`, why: 'استقرار دوراني فائق دون توسع وعائي' });
+        redAlerts.push('تجنب تماماً إعطاء البروبوفول بجرعته الكاملة لمرضى الصدمة الإنتانية لأن هبوط الضغط سيكون كارثياً وحاداً!');
+      } else if (isAsthma) {
+        inductionPlan.push({ name: 'Propofol', dose: `${(weight * 2.0).toFixed(0)} mg IV`, why: 'يوسع القصبات ويقلل من تشنج الحبال الصوتية' });
+        inductionPlan.push({ name: 'Ketamine', dose: `${(weight * 1.0).toFixed(0)} mg IV`, why: 'تأثير موسع قصبي قوي عبر مستقبلات بيتا والودي' });
+        redAlerts.push('ممنوع استخدام Desflurane في مرضى الربو عند الحث التخديري لشدة تخريشه للقصبات، وتجنب الأتروبيوم/المورفين لتحرير الهيستامين.');
+      } else if (isIHD) {
+        inductionPlan.push({ name: 'Etomidate', dose: `${(weight * 0.25).toFixed(1)} mg IV`, why: 'الخيار الأكثر أماناً لعضلة القلب ونقص التروية' });
+        inductionPlan.push({ name: 'Fentanyl', dose: `${(weight * 2.5).toFixed(0)} mcg IV`, why: 'تثبيط الاستجابة الوعائية الودية للتنبيب لمنع تسرع القلب' });
+        redAlerts.push('ممنوع استخدام الكيتامين في مرضى قصور الشرايين التاجية (IHD) لأنه يرفع استهلاك أكسجين العضلة القلبية ويسرع النبض!');
+      } else {
+        inductionPlan.push({ name: 'Propofol', dose: `${(weight * 2.0).toFixed(0)} mg IV`, why: 'الحث القياسي النظيف والسلس' });
+        inductionPlan.push({ name: 'Fentanyl', dose: `${(weight * 1.5).toFixed(0)} mcg IV`, why: 'تسكين أفيوني كافي قبل التنبيب' });
+      }
+
+      // Airway & Muscle Relaxant Logic
+      if (isFullStomach) {
+        airwayStrategy = 'تنبيل إسعافي سريع (RSI - Rapid Sequence Induction): تطبيق ضغط غضروف الحلق (Sellick Maneuver) وتجنب تهوية القناع لتفادي نفخ المعدة.';
+        if (isRenal || selectedConditions.includes('renal_failure')) {
+          relaxantPlan = `Rocuronium بجرعة RSI عالية: ${(weight * 1.2).toFixed(1)} mg IV مع تحضير دواء Sugammadex للطوارئ (ممنوع السكسنيل كولين بسبب خطر فرط البوتاسيوم).`;
+          redAlerts.push('تحذير أحمر صارم: مريض معدة ممتلئة مع قصور كلوي = يمنع إعطاء Succinylcholine خوفاً من اضطراب النظم القاتل (Ventricular Fibrillation)، البديل الإلزامي هو Rocuronium 1.2 mg/kg.');
+        } else {
+          relaxantPlan = `Succinylcholine ${(weight * 1.5).toFixed(0)} mg IV للـ RSI أو Rocuronium ${(weight * 1.2).toFixed(1)} mg IV.`;
+        }
+      }
+
+      if (isDifficultAirway) {
+        airwayStrategy = 'مجرى تنفس صعب متوقع: تحضير المنظار الفيديوي (Video Laryngoscope) كخيار أول، توفير Bougie بمقاس مناسب، وتحضير Fiberscope للتنبيب في حالة اليقظة (Awake Fiberoptic Intubation) إن لزم الأمر.';
+        precautions.push('تأكد من عدم إعطاء مرخي عضلي قبل التأكد المطلق من إمكانية تهوية المريض بالقناع (Cannot Intubate Cannot Oxygenate plan ready).');
+      }
+
+      if (isRenal || isHepatic) {
+        relaxantPlan = `Cisatracurium ${(weight * 0.15).toFixed(1)} mg IV أو Atracurium ${(weight * 0.5).toFixed(1)} mg IV (تحلل هوفمان الكيميائي دون اعتماد على الكلية أو الكبد).`;
+        precautions.push('في القصور الكلوي أو الكبدي تجنب المرخيات العضلية ذات الإطراح الكلوي/الكبدي الطويل وتجنب المسكنات مثل NSAIDs / Ketorolac.');
+      }
+
+      if (isMH) {
+        maintenancePlan = 'تخدير وريدي كلي خالص (TIVA) بواسطة Propofol و Remifentanil. يمنع منعاً باتاً تشغيل أي مبخرة غاز استنشاقي.';
+        redAlerts.push('خطر فرط الحرارة الخبيث (Malignant Hyperthermia): يمنع استخدام جميع الغازات الاستنشاقية (Sevoflurane, Desflurane, Isoflurane) ويمنع Succinylcholine نهائياً! توفير دواء Dantrolene فوراً في الصالة.');
+      }
+
+      // Output formatting
+      const outputDiv = document.getElementById('protocol-output');
+      outputDiv.style.display = 'block';
+      outputDiv.innerHTML = `
+        <div class="card" style="border: 2px solid var(--primary);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.85rem;">
+            <div>
+              <h2 style="color: #ffffff; font-size: 1.35rem; font-weight: 800;">التقرير التخديري السريري المخصص (Tailored Anesthetic Plan)</h2>
+              <div style="color: var(--text-muted); font-size: 0.85rem;">المريض: ${age} سنة | الوزن: ${weight} kg | الطول: ${height} cm | مشعر كتلة الجسم BMI: ${bmi} kg/m² | الوزن المثالي IBW: ${ibw} kg</div>
+            </div>
+            <button class="badge badge-primary" style="padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;" onclick="window.print()">
+              🖨️ طباعة وتصدير التقرير الطبي
+            </button>
+          </div>
+
+          <!-- Red Alerts Cards -->
+          ${redAlerts.length > 0 ? `
+            <div class="alert-box alert-danger">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+              <div>
+                <strong style="display:block; font-size:1.05rem; margin-bottom:0.25rem;">تحذيرات حرجة وموانع مطلقة (Critical Red Alerts & Contraindications):</strong>
+                <ul style="padding-right: 1.25rem; font-size: 0.95rem; line-height: 1.6;">
+                  ${redAlerts.map(a => `<li>${a}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Grid of Clinical Recommendations -->
+          <div class="grid-2">
+            <div class="guide-card">
+              <div class="guide-title" style="color: var(--primary-light);">1. استراتيجية الحث التخديري الموصى بها (Induction Strategy)</div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                ${inductionPlan.map(p => `
+                  <div style="background: var(--bg-input); padding: 0.65rem; border-radius: 6px;">
+                    <div style="display:flex; justify-content:space-between; font-weight:800; color:#fff;">
+                      <span>${p.name}</span>
+                      <span style="color:var(--primary-light); font-family:var(--font-en);">${p.dose}</span>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem;">${p.why}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-title" style="color: var(--primary-light);">2. خطة إدارة مجرى التنفس (Airway Strategy)</div>
+              <div class="guide-section indic">
+                <strong>الخطة المعتمدة:</strong>
+                ${airwayStrategy}
+              </div>
+              <div style="font-size:0.85rem; color:#cbd5e1; margin-top:0.4rem;">
+                • حجم أنبوب الرغامي المرجح: <strong>${weight > 50 ? '7.5 - 8.0 mm ID Cuffed' : 'محدد حسب حاسبة الجرعات'}</strong><br>
+                • عمق التثبيت عند الشفاه: <strong>21 - 23 cm</strong>
+              </div>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-title" style="color: var(--primary-light);">3. الإرخاء العضلي والعكوس (Muscle Relaxation & Reversal)</div>
+              <div class="guide-section">
+                <strong>المرخي العضلي المختار:</strong>
+                ${relaxantPlan}
+              </div>
+              <div style="font-size:0.85rem; color:#cbd5e1; margin-top:0.4rem;">
+                • خطة العكوس عند الصحو: استخدام <strong>Sugammadex</strong> بجرعة 2-4 mg/kg في حال استخدام الروكورونيوم، أو Neostigmine + Atropine بعد استعادة أول نفحتين في TOF.
+              </div>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-title" style="color: var(--primary-light);">4. استراتيجية التسكين والصيانة (Maintenance & Analgesia)</div>
+              <div class="guide-section pearls">
+                <strong>خطة الصيانة:</strong>
+                ${maintenancePlan}
+              </div>
+              <div style="font-size:0.85rem; color:#cbd5e1; margin-top:0.4rem;">
+                • ${analgesiaPlan}<br>
+                • السوائل الوريدية الأساسية: <strong>Plasmalyte / Ringer's Acetate</strong> بمعدل ${(weight + 40).toFixed(0)} ml/hr.
+              </div>
+            </div>
+          </div>
+
+          ${precautions.length > 0 ? `
+            <div class="alert-box alert-warning" style="margin-top: 1.25rem; margin-bottom: 0;">
+              <div>
+                <strong>احتياطات سريرية هامة (Clinical Precautions):</strong>
+                <ul style="padding-right: 1.25rem; font-size: 0.9rem; margin-top: 0.25rem;">
+                  ${precautions.map(p => `<li>${p}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          ` : ''}
+
+          <div style="margin-top: 1rem; text-align: left; font-size: 0.8rem; color: var(--primary-light); font-family: var(--font-en); font-weight: 700;">
+            AuraAnesthesia Clinical Decision Support Engine • Created By: Komail Nabeel / B.M.T Of Anesthesia & ICU
+          </div>
+        </div>
+      `;
+
+      outputDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateAll();
+      renderGuideCards(guideDatabase);
+    });
+  </script>
+</body>
+</html>
