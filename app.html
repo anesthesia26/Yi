@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F766E">
+  <title>الموسوعة التخديرية السريرية الشاملة - Clinical Workstation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&family=Cairo:wght@600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/advanced-design.css">
+
+  <style>
+    /* App Shell Layout */
+    body {
+      background: linear-gradient(135deg, #F0FDFA 0%, #ECFDF5 50%, #E0F2FE 100%);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-shell {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid rgba(15, 118, 110, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      box-shadow: var(--shadow-sm);
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .sidebar-logo {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .sidebar-menu {
+      flex: 1;
+      padding: 1rem 0;
+      list-style: none;
+    }
+
+    .menu-section {
+      margin-bottom: 1.5rem;
+      padding: 0.5rem;
+    }
+
+    .menu-section-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.8rem 1rem;
+    }
+
+    .menu-item {
+      padding: 0.8rem 1rem;
+      margin: 0.3rem 0.5rem;
+      border-radius: 10px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .menu-item:hover {
+      background: rgba(15, 118, 110, 0.05);
+      color: var(--primary);
+      transform: translateX(-5px);
+    }
+
+    .menu-item.active {
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.1), rgba(20, 184, 166, 0.05));
+      color: var(--primary);
+      border-right: 3px solid var(--primary);
+    }
+
+    .menu-item-icon {
+      font-size: 1.3rem;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding: 1rem;
+      border-top: 1px solid rgba(15, 118, 110, 0.1);
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .user-info {
+      flex: 1;
+      font-size: 0.9rem;
+    }
+
+    .user-name {
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .user-role {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .btn-logout {
+      padding: 0.6rem 1rem;
+      background: rgba(239, 68, 68, 0.1);
+      color: #EF4444;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Bar */
+    .topbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .topbar-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--text-dark);
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .topbar-button {
+      padding: 0.7rem 1.2rem;
+      border: 1.5px solid rgba(15, 118, 110, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .topbar-button:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Content Area */
+    .content-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    /* Tabs */
+    .tabs-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid rgba(15, 118, 110, 0.1);
+      overflow-x: auto;
+    }
+
+    .tab-button {
+      padding: 1rem 1.5rem;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--primary);
+    }
+
+    .tab-button.active {
+      color: var(--primary);
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-card {
+      background: var(--glass-surface);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-base);
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-button {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+      transition: all var(--transition-fast);
+    }
+
+    .card-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(15, 118, 110, 0.3);
+    }
+
+    /* Form Styles */
+    .form-section {
+      background: var(--glass-surface);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input {
+      padding: 0.9rem 1.1rem;
+      border: 1.5px solid rgba(15, 118, 110, 0.1);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+      transition: all var(--transition-fast);
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      background: var(--bg-white);
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-light);
+    }
+
+    /* Results Display */
+    .results-section {
+      background: var(--glass-surface);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: var(--shadow-sm);
+      display: none;
+    }
+
+    .results-section.show {
+      display: block;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .result-item {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .result-value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-shell {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        max-height: 60px;
+        overflow: hidden;
+        flex-direction: row;
+      }
+
+      .sidebar-header {
+        padding: 0.8rem;
+      }
+
+      .sidebar-menu {
+        display: none;
+      }
+
+      .topbar {
+        padding: 1rem;
+      }
+
+      .content-wrapper {
+        padding: 1rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">⚕️</div>
+        <div class="sidebar-title">الموسوعة التخديرية</div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-section">
+          <div class="menu-section-title">الرئيسي</div>
+          <div class="menu-item active" onclick="switchTab('dashboard')">
+            <span class="menu-item-icon">📊</span>
+            <span>لوحة التحكم</span>
+          </div>
+          <div class="menu-item" onclick="switchTab('calculator')">
+            <span class="menu-item-icon">🧮</span>
+            <span>الحاسبات</span>
+          </div>
+        </li>
+
+        <li class="menu-section">
+          <div class="menu-section-title">الأدوات السريرية</div>
+          <div class="menu-item" onclick="switchTab('induction')">
+            <span class="menu-item-icon">💊</span>
+            <span>الحث والإدامة</span>
+          </div>
+          <div class="menu-item" onclick="switchTab('emergency')">
+            <span class="menu-item-icon">🚨</span>
+            <span>بروتوكولات الطوارئ</span>
+          </div>
+          <div class="menu-item" onclick="switchTab('ventilation')">
+            <span class="menu-item-icon">🫁</span>
+            <span>التهوية الميكانيكية</span>
+          </div>
+        </li>
+
+        <li class="menu-section">
+          <div class="menu-section-title">التقييم</div>
+          <div class="menu-item" onclick="switchTab('preop')">
+            <span class="menu-item-icon">📋</span>
+            <span>التقييم قبل العمليات</span>
+          </div>
+          <div class="menu-item" onclick="switchTab('abg')">
+            <span class="menu-item-icon">📊</span>
+            <span>تحليل غازات الدم</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-name" id="user-name">المستخدم</div>
+          <div class="user-role">متخصص تخدير</div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div class="topbar-title" id="page-title">لوحة التحكم</div>
+        <div class="topbar-actions">
+          <button class="topbar-button">🔔</button>
+          <button class="topbar-button">⚙️</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-wrapper">
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-icon">💊</div>
+                <div>
+                  <div class="card-title">حاسبات الجرعات</div>
+                </div>
+              </div>
+              <p class="card-description">حسابات دقيقة لجميع أدوية التخدير والإنعاش مع التعديل التلقائي حسب وزن المريض</p>
+              <button class="card-button" onclick="switchTab('calculator')">الدخول للحاسبة →</button>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-icon">🚨</div>
+                <div>
+                  <div class="card-title">الطوارئ السريرية</div>
+                </div>
+              </div>
+              <p class="card-description">بروتوكولات ACLS والطوارئ التخديرية الكبرى مع الخطوات الفورية</p>
+              <button class="card-button" onclick="switchTab('emergency')">عرض البروتوكولات →</button>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-icon">🫁</div>
+                <div>
+                  <div class="card-title">أنماط التهوية</div>
+                </div>
+              </div>
+              <p class="card-description">أنماط الفنتليتر المتقدمة مع الإعدادات الآمنة وحسابات ميكانيكا الرئة</p>
+              <button class="card-button" onclick="switchTab('ventilation')">استكشف الأنماط →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator Tab -->
+        <div id="calculator" class="tab-content">
+          <div class="form-section">
+            <h2 style="margin-bottom: 2rem; color: var(--text-dark);">🧮 حاسبة الجرعات الدوائية</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">الوزن (كغ)</label>
+                <input type="number" id="weight" class="form-input" placeholder="مثال: 70" min="1" max="200">
+              </div>
+              <div class="form-group">
+                <label class="form-label">الطول (سم)</label>
+                <input type="number" id="height" class="form-input" placeholder="مثال: 170" min="100" max="250">
+              </div>
+              <div class="form-group">
+                <label class="form-label">الجنس</label>
+                <select id="gender" class="form-input">
+                  <option value="male">ذكر</option>
+                  <option value="female">أنثى</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="calculateDrugs()" style="width: 100%; margin-top: 1rem;">
+              📊 حساب الجرعات
+            </button>
+          </div>
+
+          <div id="calc-results" class="results-section">
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">نتائج الحسابات</h3>
+
+            <div id="results-content"></div>
+          </div>
+        </div>
+
+        <!-- Emergency Tab -->
+        <div id="emergency" class="tab-content">
+          <h2 style="margin-bottom: 2rem; color: var(--text-dark);">🚨 بروتوكولات الطوارئ</h2>
+
+          <div id="emergency-content" class="dashboard-grid"></div>
+        </div>
+
+        <!-- Ventilation Tab -->
+        <div id="ventilation" class="tab-content">
+          <h2 style="margin-bottom: 2rem; color: var(--text-dark);">🫁 أنماط التهوية الميكانيكية</h2>
+
+          <div id="ventilation-content" class="dashboard-grid"></div>
+        </div>
+
+        <!-- Pre-Op Assessment Tab -->
+        <div id="preop" class="tab-content">
+          <h2 style="margin-bottom: 2rem; color: var(--text-dark);">📋 التقييم قبل العمليات</h2>
+
+          <div class="form-section">
+            <h3 style="margin-bottom: 1rem;">تقييم مجرى الهواء</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">استخدم مقياس مالامباتي (Mallampati Score)</p>
+
+            <div id="mallampati-content"></div>
+          </div>
+        </div>
+
+        <!-- ABG Analysis Tab -->
+        <div id="abg" class="tab-content">
+          <h2 style="margin-bottom: 2rem; color: var(--text-dark);">📊 تحليل غازات الدم</h2>
+
+          <div class="form-section">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">pH</label>
+                <input type="number" id="abg-ph" class="form-input" placeholder="7.35 - 7.45" min="6.8" max="7.8" step="0.01">
+              </div>
+              <div class="form-group">
+                <label class="form-label">PaCO₂ (mmHg)</label>
+                <input type="number" id="abg-paco2" class="form-input" placeholder="35 - 45" min="10" max="100">
+              </div>
+              <div class="form-group">
+                <label class="form-label">PaO₂ (mmHg)</label>
+                <input type="number" id="abg-pao2" class="form-input" placeholder="> 80" min="20" max="700">
+              </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="analyzeABG()" style="width: 100%; margin-top: 1rem;">
+              🔬 تحليل النتائج
+            </button>
+          </div>
+
+          <div id="abg-results" class="results-section"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/clinical-data.js"></script>
+  <script src="js/clinical-engine.js"></script>
+
+  <script>
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = JSON.parse(localStorage.getItem('anesthesia_session') || '{}');
+      document.getElementById('user-name').textContent = session.fullName || 'المستخدم';
+      loadEmergencyProtocols();
+      loadVentilationModes();
+      loadPreOpAssessment();
+    });
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+
+      const titles = {
+        dashboard: 'لوحة التحكم',
+        calculator: '🧮 حاسبة الجرعات',
+        emergency: '🚨 بروتوكولات الطوارئ',
+        ventilation: '🫁 التهوية الميكانيكية',
+        preop: '📋 التقييم قبل العمليات',
+        induction: '💊 الحث والإدامة',
+        abg: '📊 تحليل غازات الدم'
+      };
+
+      document.getElementById('page-title').textContent = titles[tabName] || 'الموسوعة التخديرية';
+
+      document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+      event?.target?.classList.add('active');
+    }
+
+    function calculateDrugs() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const gender = document.getElementById('gender').value;
+
+      if (!weight || !height) {
+        alert('⚠️ الرجاء ملء جميع الحقول');
+        return;
+      }
+
+      const result = ClinicalEngine.generateInductionPlan(weight, height, gender, 40, []);
+
+      let html = `
+        <div class="result-item">
+          <div class="result-label">الوزن المثالي (IBW)</div>
+          <div class="result-value">${result.patientSummary.ibw} كغ</div>
+        </div>
+
+        <div class="result-item">
+          <div class="result-label">مؤشر كتلة الجسم (BMI)</div>
+          <div class="result-value">${result.patientSummary.bmi}</div>
+        </div>
+
+        <div class="result-item">
+          <div class="result-label">أنبوب الرغامة (ETT)</div>
+          <div class="result-value">${result.patientSummary.ettSize} mm</div>
+        </div>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--text-dark);">الحث التنويمي</h3>
+      `;
+
+      result.inductionStrategy.forEach(drug => {
+        html += `
+          <div class="result-item">
+            <div class="result-label">${drug.drug}</div>
+            <div class="result-value">${drug.dose} mg</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.4rem;">${drug.note}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById('results-content').innerHTML = html;
+      document.getElementById('calc-results').classList.add('show');
+    }
+
+    function analyzeABG() {
+      const ph = parseFloat(document.getElementById('abg-ph').value);
+      const paco2 = parseFloat(document.getElementById('abg-paco2').value);
+      const pao2 = parseFloat(document.getElementById('abg-pao2').value);
+
+      if (!ph || !paco2 || !pao2) {
+        alert('⚠️ الرجاء ملء جميع المتغيرات');
+        return;
+      }
+
+      let analysis = `<div class="result-item"><h3 style="color: var(--text-dark); margin-bottom: 1rem;">تحليل النتائج</h3>`;
+
+      if (ph < 7.35) {
+        analysis += `<div style="color: #EF4444; font-weight: 700;">🔴 حموضة (Acidemia)</div>`;
+        if (paco2 > 45) {
+          analysis += `<div style="color: var(--text-secondary); margin-top: 0.5rem;">• حموضة تنفسية: ارتفاع CO₂ → تحسين التهوية</div>`;
+        } else {
+          analysis += `<div style="color: var(--text-secondary); margin-top: 0.5rem;">• حموضة استقلابية: نقص CO₂ → مراجعة السوائل والأملاح</div>`;
+        }
+      } else if (ph > 7.45) {
+        analysis += `<div style="color: #10B981; font-weight: 700;">🟢 قلوية (Alkalemia)</div>`;
+      } else {
+        analysis += `<div style="color: #3B82F6; font-weight: 700;">🔵 pH طبيعي</div>`;
+      }
+
+      if (pao2 < 60) {
+        analysis += `<div style="color: #EF4444; font-weight: 700; margin-top: 1rem;">⚠️ نقص أكسجة شديد</div>`;
+      } else if (pao2 < 80) {
+        analysis += `<div style="color: #F59E0B; font-weight: 700; margin-top: 1rem;">⚠️ نقص أكسجة</div>`;
+      }
+
+      analysis += `</div>`;
+
+      document.getElementById('abg-results').innerHTML = analysis;
+      document.getElementById('abg-results').classList.add('show');
+    }
+
+    function loadEmergencyProtocols() {
+      let html = '';
+      ClinicalData.crises.slice(0, 2).forEach(crisis => {
+        html += `
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div class="card-icon">🚨</div>
+              <div>
+                <div class="card-title">${crisis.title}</div>
+              </div>
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8;">
+              ${crisis.steps.slice(0, 3).map(s => `<div>✓ ${s.text}</div>`).join('')}
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('emergency-content').innerHTML = html;
+    }
+
+    function loadVentilationModes() {
+      let html = '';
+      ClinicalData.ventilatorModes.forEach(mode => {
+        html += `
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div class="card-icon">🫁</div>
+              <div>
+                <div class="card-title">${mode.nameAr}</div>
+              </div>
+            </div>
+            <p class="card-description">${mode.characteristics}</p>
+          </div>
+        `;
+      });
+      document.getElementById('ventilation-content').innerHTML = html;
+    }
+
+    function loadPreOpAssessment() {
+      let html = '';
+      ClinicalData.preOpData.airway.mallampati.forEach(m => {
+        html += `
+          <div style="padding: 1rem; margin-bottom: 1rem; background: rgba(15, 118, 110, 0.05); border-radius: 10px;">
+            <div style="font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">${m.class}</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">📝 ${m.view}</div>
+            <div style="color: var(--text-gray); font-size: 0.85rem; margin-top: 0.5rem;">⚠️ ${m.risk}</div>
+          </div>
+        `;
+      });
+      document.getElementById('mallampati-content').innerHTML = html;
+    }
+
+    function handleLogout() {
+      if (confirm('هل تريد تسجيل الخروج؟')) {
+        localStorage.removeItem('anesthesia_session');
+        window.location.replace('index.html');
+      }
+    }
+  </script>
+
+</body>
+</html>
